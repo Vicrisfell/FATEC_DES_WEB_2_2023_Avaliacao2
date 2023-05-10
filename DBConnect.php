@@ -40,4 +40,40 @@ class DBConnect {
 
 
 
+
+    function read() {
+        $sql = "SELECT * FROM candidatos";
+        $result = $this->conn->query($sql);
+
+        if ($result->num_rows > 0) {
+            // Exibe os dados de cada candidato
+            while($row = $result->fetch_assoc()) {
+                echo "ID: " . $row["id"] . " - Nome: " . $row["nome"] . " - RG/CPF: " . $row["rgcpf"] . " - Telefone: " . $row["telefone"] . " - Escola Pública: " . $row["escola_publica"] . "<br>";
+            }
+        } else {
+            echo "Nenhum candidato cadastrado.";
+        }
+    }
+
+    function update($id, $nome, $rgcpf, $telefone, $escola_publica) {
+        $sql = "UPDATE candidatos SET nome='$nome', rgcpf='$rgcpf', telefone='$telefone', escola_publica='$escola_publica' WHERE id=$id";
+
+        if ($this->conn->query($sql) === TRUE) {
+            echo "Dados do candidato atualizados com sucesso!";
+        } else {
+            echo "Erro ao atualizar dados do candidato: " . $this->conn->error;
+        }
+    }
+
+    function delete($id) {
+        $sql = "DELETE FROM candidatos WHERE id=$id";
+
+        if ($this->conn->query($sql) === TRUE) {
+            echo "Candidato removido com sucesso!";
+        } else {
+            echo "Erro ao remover candidato: " . $this->conn->error;
+        }
+    }
+}
+
 ?>
